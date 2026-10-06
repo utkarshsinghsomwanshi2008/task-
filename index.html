@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#F7F5EF" />
+  <title>TaskFlow — Task Management System</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="toast-root" aria-live="polite"></div>
+
+  <!-- AUTH -->
+  <section id="auth-screen" class="auth-shell">
+    <div class="auth-visual">
+      <div class="brand auth-brand">
+        <span class="brand-mark"><span></span><span></span><span></span><span></span></span>
+        <span>TaskFlow</span>
+      </div>
+      <div class="auth-copy">
+        <p class="eyebrow">CALM. CLEAR. COLLABORATIVE.</p>
+        <h1>Make room for<br /><em>the work that matters.</em></h1>
+        <p>Plan, prioritize and finish work with a beautifully simple workspace designed for focused teams.</p>
+      </div>
+      <div class="auth-art">
+        <div class="art-cloud cloud-a"></div>
+        <div class="art-cloud cloud-b"></div>
+        <div class="art-hill hill-a"></div>
+        <div class="art-hill hill-b"></div>
+        <div class="art-tree tree-a"><i></i><b></b></div>
+        <div class="art-tree tree-b"><i></i><b></b></div>
+        <div class="art-tree tree-c"><i></i><b></b></div>
+      </div>
+      <div class="auth-foot"><span>✦</span> Your work, one calm place.</div>
+    </div>
+    <div class="auth-panel">
+      <div class="auth-card">
+        <div class="auth-tabs">
+          <button class="auth-tab active" data-auth-tab="login">Log in</button>
+          <button class="auth-tab" data-auth-tab="signup">Sign up</button>
+        </div>
+        <div id="login-form-wrap" class="auth-form-wrap">
+          <div class="auth-heading">
+            <h2>Welcome back</h2>
+            <p>Sign in to continue where you left off.</p>
+          </div>
+          <form id="login-form" class="stack-form">
+            <label>Email <input id="login-email" type="email" required autocomplete="email" placeholder="you@example.com" /></label>
+            <label>Password <div class="password-wrap"><input id="login-password" type="password" required autocomplete="current-password" placeholder="••••••••" /><button type="button" class="icon-btn password-toggle" data-target="login-password" aria-label="Show password">◉</button></div></label>
+            <div class="form-row-between"><label class="checkbox-label"><input id="remember-me" type="checkbox" checked /> <span>Remember me</span></label><button type="button" class="text-btn" id="fill-demo">Use demo account</button></div>
+            <button class="primary-btn wide" type="submit">Log in <span>→</span></button>
+          </form>
+          <div class="demo-hint"><strong>Demo:</strong> admin@taskflow.app / admin123</div>
+        </div>
+        <div id="signup-form-wrap" class="auth-form-wrap hidden">
+          <div class="auth-heading">
+            <h2>Create your workspace</h2>
+            <p>Start organizing your tasks in under a minute.</p>
+          </div>
+          <form id="signup-form" class="stack-form">
+            <label>Full name <input id="signup-name" type="text" required autocomplete="name" placeholder="Alex Johnson" /></label>
+            <label>Email <input id="signup-email" type="email" required autocomplete="email" placeholder="alex@example.com" /></label>
+            <label>Password <div class="password-wrap"><input id="signup-password" type="password" required minlength="6" autocomplete="new-password" placeholder="At least 6 characters" /><button type="button" class="icon-btn password-toggle" data-target="signup-password" aria-label="Show password">◉</button></div></label>
+            <label>Workspace <input id="signup-workspace" type="text" required placeholder="My Team" /></label>
+            <button class="primary-btn wide" type="submit">Create account <span>→</span></button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APP -->
+  <div id="app-shell" class="app-shell hidden">
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="brand">
+          <span class="brand-mark"><span></span><span></span><span></span><span></span></span>
+          <span>TaskFlow</span>
+        </div>
+        <button class="mobile-close icon-btn" id="mobile-close" aria-label="Close menu">×</button>
+      </div>
+
+      <div class="user-mini-card">
+        <div class="avatar" id="sidebar-avatar">A</div>
+        <div class="user-mini-copy"><strong id="sidebar-name">Alex</strong><span id="sidebar-role">Member</span></div>
+        <span class="status-dot"></span>
+      </div>
+
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-item active" data-view="dashboard"><span class="nav-icon">⌂</span><span>Dashboard</span></button>
+        <button class="nav-item" data-view="tasks"><span class="nav-icon">✓</span><span>My Tasks</span><span class="nav-badge" id="nav-task-count">0</span></button>
+        <button class="nav-item" data-view="projects"><span class="nav-icon">▦</span><span>Projects</span></button>
+        <button class="nav-item" data-view="calendar"><span class="nav-icon">□</span><span>Calendar</span></button>
+        <button class="nav-item" data-view="team"><span class="nav-icon">♧</span><span>Team</span></button>
+        <button class="nav-item" data-view="notifications"><span class="nav-icon">♧</span><span>Notifications</span><span class="nav-badge coral" id="nav-notification-count">0</span></button>
+      </nav>
+
+      <div class="sidebar-section-title">WORKSPACE</div>
+      <nav class="main-nav compact">
+        <button class="nav-item" data-view="settings"><span class="nav-icon">⚙</span><span>Settings</span></button>
+        <button class="nav-item admin-only" data-view="admin"><span class="nav-icon">✚</span><span>Admin Console</span></button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="support-card">
+          <div class="support-icon">✦</div>
+          <div><strong>Stay on track</strong><span>Use Focus Timer for deep work.</span></div>
+        </div>
+        <button class="logout-btn" id="logout-btn"><span>↪</span> Log out</button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="mobile-menu icon-btn" id="mobile-menu" aria-label="Open menu">☰</button>
+        <div class="global-search"><span>⌕</span><input id="global-search" type="search" placeholder="Search tasks, projects or people" /></div>
+        <div class="topbar-actions">
+          <button class="export-btn" id="export-btn">⇩ <span>Export summary</span></button>
+          <button class="icon-btn top-icon" id="quick-add-btn" aria-label="Quick add">＋</button>
+          <button class="icon-btn top-icon notification-btn" data-view="notifications" aria-label="Notifications">♧<i id="notification-pip"></i></button>
+          <button class="profile-btn" id="profile-btn"><span class="avatar small" id="topbar-avatar">A</span><span class="profile-chevron">⌄</span></button>
+        </div>
+      </header>
+
+      <div class="page-wrap">
+        <!-- DASHBOARD -->
+        <section id="view-dashboard" class="view active-view">
+          <div class="dashboard-grid">
+            <div class="welcome-card card hero-card">
+              <div class="hero-overlay"></div>
+              <div class="hero-content">
+                <div>
+                  <p class="eyebrow">YOUR DAILY OVERVIEW</p>
+                  <h1 id="welcome-title">Good morning, Alex <span>✦</span></h1>
+                  <p id="welcome-subtitle">You have a clear path today. Let's make it count.</p>
+                </div>
+                <div class="hero-next">
+                  <div class="hero-next-title">UP NEXT</div>
+                  <div id="up-next-list"></div>
+                </div>
+              </div>
+              <div class="hero-sun"></div>
+              <div class="hero-bird bird-a">×</div><div class="hero-bird bird-b">×</div><div class="hero-bird bird-c">×</div>
+            </div>
+
+            <div class="card calendar-mini">
+              <div class="card-head">
+                <div><span class="eyebrow">PLAN AHEAD</span><h3 id="mini-calendar-title">October 2026</h3></div>
+                <div class="head-actions"><button class="icon-btn small-btn" id="mini-prev">‹</button><button class="icon-btn small-btn" id="mini-next">›</button></div>
+              </div>
+              <div id="mini-calendar-grid" class="mini-calendar-grid"></div>
+              <button class="text-link" data-view="calendar">Open full calendar →</button>
+            </div>
+
+            <div class="stats-row">
+              <div class="stat-card card"><div class="stat-icon green">✓</div><div><span>Active tasks</span><strong id="stat-active">0</strong></div><small id="stat-active-trend">In progress + to do</small></div>
+              <div class="stat-card card"><div class="stat-icon coral">!</div><div><span>Due soon</span><strong id="stat-due">0</strong></div><small>Next 72 hours</small></div>
+              <div class="stat-card card"><div class="stat-icon blue">★</div><div><span>Completed</span><strong id="stat-completed">0</strong></div><small id="stat-completion-rate">0% completion</small></div>
+              <div class="stat-card card"><div class="stat-icon amber">!</div><div><span>Overdue</span><strong id="stat-overdue">0</strong></div><small>Needs attention</small></div>
+            </div>
+
+            <div class="card today-card">
+              <div class="section-head"><div><span class="eyebrow">TODAY</span><h2>Today's tasks</h2></div><button class="outline-btn" data-view="tasks">View board →</button></div>
+              <div id="today-task-list" class="task-list"></div>
+            </div>
+
+            <div class="card progress-card">
+              <div class="section-head"><div><span class="eyebrow">WORKSPACE</span><h2>Project progress</h2></div><button class="icon-btn small-btn" data-view="projects">→</button></div>
+              <div id="dashboard-projects" class="project-progress-list"></div>
+            </div>
+
+            <div class="card focus-card">
+              <div class="focus-copy"><span class="eyebrow">FOCUS TIMER</span><h2 id="focus-task-name">Pick a task</h2><p>Work in a distraction-free sprint.</p><div class="timer-display" id="timer-display">25:00</div><div class="timer-controls"><button class="icon-btn timer-step" data-step="-5">−</button><button class="primary-btn timer-main" id="timer-main">▶ Start</button><button class="icon-btn timer-step" data-step="5">＋</button></div></div>
+              <div class="focus-art"><span class="focus-spark">✦</span><div class="focus-plant plant-1"></div><div class="focus-plant plant-2"></div><div class="focus-leaf"></div></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TASKS -->
+        <section id="view-tasks" class="view">
+          <div class="page-header"><div><p class="eyebrow">WORK IN PROGRESS</p><h1>My Tasks</h1><p>Drag tasks between columns, set priorities, and keep every deadline visible.</p></div><button class="primary-btn" id="create-task-btn">＋ New task</button></div>
+          <div class="toolbar card">
+            <div class="toolbar-search"><span>⌕</span><input id="task-search" placeholder="Filter tasks" /></div>
+            <select id="task-project-filter"><option value="all">All projects</option></select>
+            <select id="task-priority-filter"><option value="all">All priorities</option><option value="high">High priority</option><option value="medium">Medium priority</option><option value="low">Low priority</option></select>
+            <select id="task-assignee-filter"><option value="all">Everyone</option></select>
+            <button class="icon-btn" id="clear-task-filters" title="Clear filters">↻</button>
+          </div>
+          <div class="kanban-board" id="kanban-board"></div>
+        </section>
+
+        <!-- PROJECTS -->
+        <section id="view-projects" class="view">
+          <div class="page-header"><div><p class="eyebrow">ORGANIZE BY OUTCOME</p><h1>Projects</h1><p>See progress, deadlines, and the people moving each project forward.</p></div><button class="primary-btn" id="create-project-btn">＋ New project</button></div>
+          <div id="project-grid" class="project-grid"></div>
+        </section>
+
+        <!-- CALENDAR -->
+        <section id="view-calendar" class="view">
+          <div class="page-header"><div><p class="eyebrow">SCHEDULE WITH EASE</p><h1>Calendar</h1><p>Drag a task onto a date to reschedule it.</p></div><div class="segmented"><button class="seg active" data-calendar-view="month">Month</button><button class="seg" data-calendar-view="week">Week</button></div></div>
+          <div class="calendar-page card">
+            <div class="calendar-page-head"><button class="icon-btn" id="cal-prev">‹</button><div><h2 id="calendar-title">October 2026</h2><span id="calendar-range"></span></div><button class="icon-btn" id="cal-next">›</button><button class="outline-btn" id="cal-today">Today</button></div>
+            <div id="calendar-body"></div>
+          </div>
+        </section>
+
+        <!-- TEAM -->
+        <section id="view-team" class="view">
+          <div class="page-header"><div><p class="eyebrow">WORK TOGETHER</p><h1>Team</h1><p>Assign tasks, view workloads, and keep your team in sync.</p></div><button class="outline-btn" id="invite-btn">＋ Invite member</button></div>
+          <div class="team-grid">
+            <div class="card members-card"><div class="section-head"><div><span class="eyebrow">MEMBERS</span><h2>Your team</h2></div><span class="pill" id="member-count">0 members</span></div><div id="member-list" class="member-list"></div></div>
+            <div class="card activity-card"><div class="section-head"><div><span class="eyebrow">LIVE FEED</span><h2>Recent activity</h2></div></div><div id="activity-list" class="activity-list"></div></div>
+            <div class="card workload-card"><div class="section-head"><div><span class="eyebrow">LOAD</span><h2>Team workload</h2></div></div><div id="workload-list" class="workload-list"></div></div>
+          </div>
+        </section>
+
+        <!-- NOTIFICATIONS -->
+        <section id="view-notifications" class="view">
+          <div class="page-header"><div><p class="eyebrow">STAY AHEAD</p><h1>Notifications</h1><p>Upcoming deadlines, collaboration updates and progress changes.</p></div><button class="outline-btn" id="mark-all-read">Mark all read</button></div>
+          <div id="notification-list" class="notification-list"></div>
+        </section>
+
+        <!-- SETTINGS -->
+        <section id="view-settings" class="view">
+          <div class="page-header"><div><p class="eyebrow">YOUR PREFERENCES</p><h1>Settings</h1><p>Shape your workspace and notification preferences.</p></div></div>
+          <div class="settings-grid">
+            <div class="card settings-card"><span class="eyebrow">PROFILE</span><h2>Personal details</h2><form id="profile-form" class="stack-form"><label>Full name<input id="profile-name" required /></label><label>Email<input id="profile-email" type="email" readonly /></label><label>Workspace<input id="profile-workspace" /></label><button class="primary-btn" type="submit">Save profile</button></form></div>
+            <div class="card settings-card"><span class="eyebrow">NOTIFICATIONS</span><h2>Choose what reaches you</h2><div class="setting-switches"><label class="switch-row"><span><strong>Upcoming deadlines</strong><small>Remind me about tasks due soon.</small></span><input type="checkbox" id="pref-deadlines" /><i></i></label><label class="switch-row"><span><strong>Task assignments</strong><small>Tell me when a task is assigned.</small></span><input type="checkbox" id="pref-assignments" /><i></i></label><label class="switch-row"><span><strong>Team activity</strong><small>Show collaboration updates.</small></span><input type="checkbox" id="pref-activity" /><i></i></label></div></div>
+            <div class="card settings-card danger-settings"><span class="eyebrow">DEMO CONTROLS</span><h2>Reset workspace</h2><p>Reset demo data to the original TaskFlow workspace. Your account remains intact.</p><button class="outline-btn coral-outline" id="reset-data-btn">Reset demo data</button></div>
+          </div>
+        </section>
+
+        <!-- ADMIN -->
+        <section id="view-admin" class="view">
+          <div class="page-header"><div><p class="eyebrow">CONTROL CENTER</p><h1>Admin Console</h1><p>Manage users, projects, tasks, reports and system notices.</p></div><button class="primary-btn" id="admin-broadcast-btn">＋ System notice</button></div>
+          <div class="admin-stats stats-row">
+            <div class="stat-card card"><div class="stat-icon green">♧</div><div><span>Total users</span><strong id="admin-users-stat">0</strong></div><small>Workspace members</small></div>
+            <div class="stat-card card"><div class="stat-icon blue">▦</div><div><span>Total tasks</span><strong id="admin-tasks-stat">0</strong></div><small>Across all projects</small></div>
+            <div class="stat-card card"><div class="stat-icon green">✓</div><div><span>Completed tasks</span><strong id="admin-completed-stat">0</strong></div><small>Finished work</small></div>
+            <div class="stat-card card"><div class="stat-icon coral">!</div><div><span>Overdue tasks</span><strong id="admin-overdue-stat">0</strong></div><small>Needs attention</small></div>
+          </div>
+          <div class="admin-grid">
+            <div class="card admin-table-card"><div class="section-head"><div><span class="eyebrow">PEOPLE</span><h2>User management</h2></div><button class="text-link" id="admin-add-user">Add user →</button></div><div class="table-wrap"><table><thead><tr><th>User</th><th>Role</th><th>Tasks</th><th>Joined</th><th></th></tr></thead><tbody id="admin-users-table"></tbody></table></div></div>
+            <div class="card admin-table-card"><div class="section-head"><div><span class="eyebrow">PORTFOLIO</span><h2>Project management</h2></div></div><div class="table-wrap"><table><thead><tr><th>Project</th><th>Owner</th><th>Progress</th><th>Due</th><th></th></tr></thead><tbody id="admin-projects-table"></tbody></table></div></div>
+            <div class="card reports-card"><div class="section-head"><div><span class="eyebrow">REPORTS</span><h2>Delivery health</h2></div></div><div id="admin-report-chart" class="report-bars"></div><div class="report-foot"><span>Completion</span><strong id="admin-report-rate">0%</strong></div></div>
+            <div class="card admin-table-card"><div class="section-head"><div><span class="eyebrow">SYSTEM</span><h2>Recent notices</h2></div></div><div id="admin-notices" class="notices-list"></div></div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- TASK MODAL -->
+  <div class="modal-backdrop hidden" id="task-modal">
+    <div class="modal card modal-lg">
+      <div class="modal-head"><div><span class="eyebrow">TASK DETAILS</span><h2 id="task-modal-title">Create a task</h2></div><button class="icon-btn" data-close-modal="task-modal">×</button></div>
+      <form id="task-form" class="modal-form">
+        <input type="hidden" id="task-id" />
+        <div class="form-grid"><label>Task name<input id="task-title-input" required maxlength="120" placeholder="e.g. Finalize design handoff" /></label><label>Project<select id="task-project-input" required></select></label></div>
+        <label>Description<textarea id="task-description-input" rows="4" placeholder="What needs to be done?"></textarea></label>
+        <div class="form-grid"><label>Priority<select id="task-priority-input"><option value="high">High</option><option value="medium" selected>Medium</option><option value="low">Low</option></select></label><label>Deadline<input id="task-due-input" type="date" required /></label></div>
+        <div class="form-grid"><label>Status<select id="task-status-input"><option value="todo">To Do</option><option value="progress">In Progress</option><option value="done">Completed</option></select></label><label>Assignee<select id="task-assignee-input"></select></label></div>
+        <label>Tags <input id="task-tags-input" placeholder="design, urgent, client" /></label>
+        <div class="modal-actions"><button type="button" class="outline-btn" data-close-modal="task-modal">Cancel</button><button class="primary-btn" type="submit" id="task-save-btn">Create Task</button></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- PROJECT MODAL -->
+  <div class="modal-backdrop hidden" id="project-modal">
+    <div class="modal card">
+      <div class="modal-head"><div><span class="eyebrow">PROJECT</span><h2>Create a project</h2></div><button class="icon-btn" data-close-modal="project-modal">×</button></div>
+      <form id="project-form" class="modal-form"><label>Project name<input id="project-name-input" required placeholder="e.g. Website Refresh" /></label><label>Description<textarea id="project-description-input" rows="3" placeholder="Outcome and scope"></textarea></label><div class="form-grid"><label>Deadline<input id="project-due-input" type="date" required /></label><label>Accent<select id="project-accent-input"><option value="sage">Sage</option><option value="coral">Coral</option><option value="sky">Sky</option><option value="sand">Sand</option></select></label></div><div class="modal-actions"><button type="button" class="outline-btn" data-close-modal="project-modal">Cancel</button><button class="primary-btn" type="submit">Create Project</button></div></form>
+    </div>
+  </div>
+
+  <!-- INVITE MODAL -->
+  <div class="modal-backdrop hidden" id="invite-modal">
+    <div class="modal card">
+      <div class="modal-head"><div><span class="eyebrow">COLLABORATION</span><h2>Invite a teammate</h2></div><button class="icon-btn" data-close-modal="invite-modal">×</button></div>
+      <form id="invite-form" class="modal-form"><label>Name<input id="invite-name" required placeholder="Jordan Lee" /></label><label>Email<input id="invite-email" required type="email" placeholder="jordan@example.com" /></label><label>Role<select id="invite-role"><option value="Member">Member</option><option value="Manager">Manager</option></select></label><div class="modal-actions"><button type="button" class="outline-btn" data-close-modal="invite-modal">Cancel</button><button class="primary-btn" type="submit">Send invite</button></div></form>
+    </div>
+  </div>
+
+  <!-- PROFILE POPOVER -->
+  <div class="profile-popover hidden" id="profile-popover"><button data-view="settings">⚙ Settings</button><button id="popover-logout">↪ Log out</button></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
